@@ -17,26 +17,36 @@ export class BarChartComponent implements OnInit {
     let monthlyTagLikes = {}
     for (let tagLikes of data) {
       var month = new Date(tagLikes.dateAdded)
-      console.log(month.getMonth())
+      var abc = month.getMonth()
       for (let i = 0; i < tagLikes.tags.length; i++) {
-        if (!monthlyTagLikes[month.getMonth()]) {
-          monthlyTagLikes[month.getMonth()] = {}
+        if (!monthlyTagLikes[abc]) {
+          monthlyTagLikes[abc] = {}
         }
-        if (!monthlyTagLikes[month.getMonth()][tagLikes.tags[i]]) {
-          monthlyTagLikes[month.getMonth()][tagLikes.tags[i]] = 0
+        if (!monthlyTagLikes[abc][tagLikes.tags[i]]) {
+          monthlyTagLikes[abc][tagLikes.tags[i]] = 0
         }
-        monthlyTagLikes[month.getMonth()][tagLikes.tags[i]] += tagLikes.likes
+        monthlyTagLikes[abc][tagLikes.tags[i]] += tagLikes.likes
       }
     }
     let aggregateTagLikes = {}
     this.chartLabels = Object.keys(monthlyTagLikes)
     for (let month of Object.keys(monthlyTagLikes)) {
-      for (let tag of monthlyTagLikes[month]) {
+      for (let tag in monthlyTagLikes[month]) {
         if (!aggregateTagLikes[tag]) {
           aggregateTagLikes[tag] = []
         }
         aggregateTagLikes[tag].push(monthlyTagLikes[month][tag])
       }
     }
+    let dataset = []
+
+    for (let tag in aggregateTagLikes) {
+      dataset.push({
+        data: aggregateTagLikes[tag],
+        label: tag
+      })
+    }
+
+    this.chartData = dataset
   }
 }

@@ -26,6 +26,7 @@ export class PieChartComponent implements OnInit {
       }
     }
     this.chartLabels = Object.keys(tagLikesLabel)
+    console.log(tagLikesLabel)
     for (let tag of Object.keys(tagLikesLabel)) {
       dataset.push(tagLikesLabel[tag])
     }
